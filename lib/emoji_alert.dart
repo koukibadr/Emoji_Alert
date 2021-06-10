@@ -1,6 +1,34 @@
+import 'package:emoji_alert/emoji_type.dart';
 import 'package:flutter/material.dart';
 
 class EmojiAlert extends StatelessWidget {
+  final String description;
+  final String? alertTitle;
+
+  final bool? enableTitle;
+  final TextStyle? titleStyle;
+  final TextStyle? messageStyle;
+
+  final bool? enableConfirmButton;
+  final bool? enableCancelButton;
+
+  final Function? onConfirmButtonPressed;
+  final Function? onCancelButtonPressed;
+
+  final EMOJI_TYPE emojiType;
+
+  EmojiAlert(
+      {required this.description,
+      this.alertTitle,
+      this.enableTitle,
+      this.titleStyle,
+      this.messageStyle,
+      this.enableConfirmButton,
+      this.enableCancelButton,
+      this.onCancelButtonPressed,
+      this.onConfirmButtonPressed,
+      this.emojiType = EMOJI_TYPE.HAPPY});
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -22,7 +50,11 @@ class EmojiAlert extends StatelessWidget {
           ),
           Align(
             alignment: Alignment.topCenter,
-            child: Image(image: AssetImage("assets/images/happy.png", package: 'emoji_alert'),width: 70,),
+            child: Image(
+              image: AssetImage(EMOJIS[this.emojiType] ?? "",
+                  package: 'emoji_alert'),
+              width: 70,
+            ),
           ),
         ],
       ),

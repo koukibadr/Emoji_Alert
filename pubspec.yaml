@@ -5,7 +5,7 @@ author:
 homepage:
 
 environment:
-  sdk: ">=2.7.0 <3.0.0"
+  sdk: '>=2.12.0 <3.0.0'
   flutter: ">=1.17.0"
 
 dependencies:
@@ -26,7 +26,16 @@ flutter:
   # To add assets to your package, add an assets section, like this:
   assets:
     - assets/images/happy.png
-  #   - images/a_dot_ham.jpeg
+    - assets/images/angry.png
+    - assets/images/confused.png
+    - assets/images/cool.png
+    - assets/images/joyful.png
+    - assets/images/laughing.png
+    - assets/images/sad.png
+    - assets/images/scared.png
+    - assets/images/shocked.png
+    - assets/images/smile.png
+    - assets/images/wink.png
   #
   # For details regarding assets in packages, see
   # https://flutter.dev/assets-and-images/#from-packages

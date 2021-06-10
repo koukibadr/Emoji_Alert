@@ -1,4 +1,5 @@
 import 'package:emoji_alert/emoji_alert.dart';
+import 'package:emoji_alert/emoji_type.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -35,6 +36,9 @@ class HomeScreen extends StatelessWidget {
   }
 
   displayAlert(context) {
-    EmojiAlert().show(context);
+    EmojiAlert(
+      description: "",
+      emojiType: EMOJI_TYPE.CONFUSED,
+    ).show(context);
   }
 }
