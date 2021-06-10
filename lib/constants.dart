@@ -9,3 +9,5 @@ const String EMOJI_SCARED = "assets/images/scared.png";
 const String EMOJI_SHOCKED = "assets/images/shocked.png";
 const String EMOJI_SMILE = "assets/images/smile.png";
 const String EMOJI_WINK = "assets/images/wink.png";
+
+const String PACKAGE_NAME = 'emoji_alert';

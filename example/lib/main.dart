@@ -37,8 +37,11 @@ class HomeScreen extends StatelessWidget {
 
   displayAlert(context) {
     EmojiAlert(
-      description: "",
+      description: "My name is badreddine and this is a new alert",
       emojiType: EMOJI_TYPE.CONFUSED,
+      alertTitle: "Alert",
+      enableTitle: true,
+      height: 400,
     ).show(context);
   }
 }

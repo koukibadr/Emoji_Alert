@@ -1,3 +1,4 @@
+import 'package:emoji_alert/emoji_icon.dart';
 import 'package:emoji_alert/emoji_type.dart';
 import 'package:flutter/material.dart';
 
@@ -5,9 +6,9 @@ class EmojiAlert extends StatelessWidget {
   final String description;
   final String? alertTitle;
 
-  final bool? enableTitle;
-  final TextStyle? titleStyle;
-  final TextStyle? messageStyle;
+  final bool enableTitle;
+  final TextStyle titleStyle;
+  final TextStyle descriptionTextStyle;
 
   final bool? enableConfirmButton;
   final bool? enableCancelButton;
@@ -17,47 +18,79 @@ class EmojiAlert extends StatelessWidget {
 
   final EMOJI_TYPE emojiType;
 
+  final double height;
+  final double emojiSize;
+
   EmojiAlert(
       {required this.description,
       this.alertTitle,
-      this.enableTitle,
-      this.titleStyle,
-      this.messageStyle,
+      this.titleStyle = const TextStyle(color: Colors.black),
+      this.descriptionTextStyle = const TextStyle(color: Colors.black),
       this.enableConfirmButton,
       this.enableCancelButton,
       this.onCancelButtonPressed,
       this.onConfirmButtonPressed,
-      this.emojiType = EMOJI_TYPE.HAPPY});
+      this.enableTitle = false,
+      this.emojiType = EMOJI_TYPE.HAPPY,
+      this.height = 200,
+      this.emojiSize = 80});
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 200,
+      height: this.height,
       color: Color(0x00000000),
-      child: Stack(
-        children: [
-          Align(
-            alignment: Alignment.bottomCenter,
-            child: Container(
-              height: 150,
-              decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.only(
-                    bottomLeft: Radius.circular(20),
-                    bottomRight: Radius.circular(20),
-                  )),
+      child: _renderSimpleAlert(),
+    );
+  }
+
+  _renderSimpleAlert() {
+    return Stack(
+      children: [
+        Align(
+          alignment: Alignment.bottomCenter,
+          child: Container(
+            height: this.height - (this.emojiSize * 0.8),
+            decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.only(
+                  bottomLeft: Radius.circular(20),
+                  bottomRight: Radius.circular(20),
+                )),
+            child: Padding(
+              padding: EdgeInsets.only(
+                top: 30,
+                left: 40,
+                right: 40,
+              ),
+              child: _renderSimpleAlertBody(),
             ),
           ),
-          Align(
-            alignment: Alignment.topCenter,
-            child: Image(
-              image: AssetImage(EMOJIS[this.emojiType] ?? "",
-                  package: 'emoji_alert'),
-              width: 70,
-            ),
-          ),
-        ],
-      ),
+        ),
+        Align(
+          alignment: Alignment.topCenter,
+          child:
+              EmojiIcon(emojiType: this.emojiType, emojiSize: this.emojiSize),
+        ),
+      ],
+    );
+  }
+
+  _renderSimpleAlertBody() {
+    return Column(
+      children: [
+        this.enableTitle
+            ? Column(
+                children: [
+                  Text(this.alertTitle ?? "", style: this.titleStyle),
+                  SizedBox(
+                    height: 20,
+                  ),
+                ],
+              )
+            : Container(),
+        Text(this.description, style: this.descriptionTextStyle)
+      ],
     );
   }
 
