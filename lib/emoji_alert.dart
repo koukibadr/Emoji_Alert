@@ -27,7 +27,7 @@ class EmojiAlert extends StatelessWidget {
       this.mainButtonColor = Colors.blue,
       this.secondaryButtonColor = Colors.blue,
       this.mainButtonText = const Text(CONFIRM_STRING),
-      this.cancelButtonText = const Text(CANCEL_STRING),
+      this.secondaryButtonText = const Text(CANCEL_STRING),
       this.buttonSize = DEFAULT_BUTTON_SIZE,
       this.cancelButtonColorOpacity = DEFAULT_OPACITY,
       this.cancelable = true,
@@ -113,7 +113,7 @@ class EmojiAlert extends StatelessWidget {
   ///[Text] widget used in rendering the second button widget
   ///by default:
   ///* `const Text("Cancel")`
-  final Text cancelButtonText;
+  final Text secondaryButtonText;
 
   ///the width set to buttons both MainButton and SecondaryButton
   ///by default it's 200
@@ -213,7 +213,7 @@ class EmojiAlert extends StatelessWidget {
         return SecondaryButton(
             buttonSize: buttonSize,
             buttonColor: secondaryButtonColor,
-            buttonText: cancelButtonText,
+            buttonText: secondaryButtonText,
             onButtonPressed: this.onSecondaryButtonPressed,
             backgroundOpacity: this.cancelButtonColorOpacity);
       } else if (!this.enableSecondaryButton && this.enableMainButton) {
@@ -233,7 +233,7 @@ class EmojiAlert extends StatelessWidget {
             SecondaryButton(
                 buttonSize: buttonSize,
                 buttonColor: secondaryButtonColor,
-                buttonText: cancelButtonText,
+                buttonText: secondaryButtonText,
                 onButtonPressed: this.onSecondaryButtonPressed,
                 backgroundOpacity: this.cancelButtonColorOpacity),
           ],
