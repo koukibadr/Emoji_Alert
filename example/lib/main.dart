@@ -1,3 +1,4 @@
+import 'package:emoji_alert/constants.dart';
 import 'package:emoji_alert/emoji_alert.dart';
 import 'package:emoji_alert/arrays.dart';
 import 'package:flutter/material.dart';
@@ -41,19 +42,20 @@ class HomeScreen extends StatelessWidget {
           style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
       description: Text("Please enter your name"),
       height: 300,
-      confirmButtonEnabled: true,
-      confirmButtonText: Text("Confirmer"),
-      confirmButtonColor: Colors.green,
-      onConfirmButtonPressed: () {
+      enableMainButton: true,
+      mainButtonText: Text("Confirmer"),
+      mainButtonColor: Colors.green,
+      onMainButtonPressed: () {
         print("Hello I'm Badr");
       },
       cancelable: false,
-      cancelButtonEnabled: true,
-      onCancelButtonPressed: () {
+      enableSecondaryButton: true,
+      onSecondaryButtonPressed: () {
         Navigator.pop(context);
       },
       cornerRadiusType: CORNER_RADIUS_TYPES.ALL_CORNERS,
       width: 400,
+      emojiType: EMOJI_TYPE.ANGRY,
     ).displayAlert(context);
   }
 }

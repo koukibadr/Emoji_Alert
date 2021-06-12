@@ -1,77 +1,158 @@
 import 'package:emoji_alert/emoji_icon.dart';
 import 'package:emoji_alert/arrays.dart';
-import 'package:emoji_alert/widgets/cancel_button.dart';
+import 'package:emoji_alert/widgets/secondary_button.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-import 'widgets/confirm_button.dart';
+import 'constants.dart';
+import 'sizes.dart';
+import 'widgets/main_button.dart';
 
+///Creates the main EmojiAlert popup
+///[description] is the only required parameter
+///by default it creates White popup with [emojiType] set to [EMOJI_TYPE.HAPPY]
+///without any button
 class EmojiAlert extends StatelessWidget {
-  final Widget description;
-  final Widget? alertTitle;
-
-  final bool? enableConfirmButton;
-  final bool? enableCancelButton;
-
-  final Function? onConfirmButtonPressed;
-  final Function? onCancelButtonPressed;
-
-  final EMOJI_TYPE emojiType;
-
-  final double height;
-  final double? width;
-  final double emojiSize;
-
-  final Color background;
-
-  final Color confirmButtonColor;
-  final Color cancelButtonColor;
-  final bool confirmButtonEnabled;
-  final bool cancelButtonEnabled;
-  final Text confirmButtonText;
-  final Text cancelButtonText;
-
-  final double buttonSize;
-
-  final double cancelButtonColorOpacity;
-
-  final bool cancelable;
-
-  final CORNER_RADIUS_TYPES cornerRadiusType;
-
   EmojiAlert(
       {required this.description,
       this.alertTitle,
-      this.enableConfirmButton,
-      this.enableCancelButton,
-      this.onCancelButtonPressed,
-      this.onConfirmButtonPressed,
+      this.enableMainButton = false,
+      this.enableSecondaryButton = false,
+      this.onSecondaryButtonPressed,
+      this.onMainButtonPressed,
       this.emojiType = EMOJI_TYPE.HAPPY,
-      this.height = 200,
-      this.emojiSize = 80,
+      this.height = DEFAULT_POPUP_HEIGHT,
+      this.emojiSize = DEFAULT_EMOJI_SIZE,
       this.background = Colors.white,
-      this.confirmButtonColor = Colors.blue,
-      this.cancelButtonColor = Colors.blue,
-      this.confirmButtonEnabled = true,
-      this.cancelButtonEnabled = false,
-      this.confirmButtonText = const Text("Confirm"),
-      this.cancelButtonText = const Text("Cancel"),
-      this.buttonSize = 200,
-      this.cancelButtonColorOpacity = 0.2,
+      this.mainButtonColor = Colors.blue,
+      this.secondaryButtonColor = Colors.blue,
+      this.mainButtonText = const Text(CONFIRM_STRING),
+      this.cancelButtonText = const Text(CANCEL_STRING),
+      this.buttonSize = DEFAULT_BUTTON_SIZE,
+      this.cancelButtonColorOpacity = DEFAULT_OPACITY,
       this.cancelable = true,
       this.cornerRadiusType = CORNER_RADIUS_TYPES.BOTTOM_ONLY,
       this.width});
+
+  ///Widget used as body in the popup dialog
+  ///required attribute
+  ///
+  final Widget description;
+
+  ///
+  ///The title of the popup dialog a Widget type parameter
+  ///If it's null the popup will only contain [description]
+  final Widget? alertTitle;
+
+  ///used to enable the main button [ElevatedButton]
+  ///by default it's set to false so nothing will be rendered
+  ///
+  final bool enableMainButton;
+
+  ///used to enable the secondary button of type [TextButton]
+  ///by default it's false
+  final bool enableSecondaryButton;
+
+  ///the function invoked when pressing the main button
+  ///By default it's null
+  ///
+  final Function? onMainButtonPressed;
+
+  ///The function invoked when presseing the secondary button
+  final Function? onSecondaryButtonPressed;
+
+  ///The emoji that will be rendered
+  ///by default `emojiType = EMOJI_TYPE.HAPPY`
+  ///```dart
+  ///  {
+  /// ANGRY,
+  /// CONFUSED,
+  /// COOL,
+  /// HAPPY,
+  /// JOYFUL,
+  /// LAUGHING,
+  /// SAD,
+  /// SCARED,
+  /// SHOCKED,
+  /// SMILE,
+  /// WINK
+  /// }
+  /// ```
+  final EMOJI_TYPE emojiType;
+
+  ///The popup height size
+  ///by default it's set to 200
+  final double height;
+
+  ///The popup width size, by default it's null
+  ///mainly used when displaying the bottom sheet modal
+  final double? width;
+
+  ///The emoji size  by default it's 80
+  final double emojiSize;
+
+  ///The alert background color used in the popup
+  ///by default it's white
+  final Color background;
+
+  ///main button background Color
+  ///by default it's set to blue
+  ///
+  final Color mainButtonColor;
+
+  ///The secondary button color, by default it's blue
+  ///an opacity value will be added to this color [cancelButtonColorOpacity]
+  ///
+  final Color secondaryButtonColor;
+
+  /// [Text] widget will be used in the main button widget
+  /// by default:
+  /// * `const Text("Confirm")`
+  final Text mainButtonText;
+
+  ///[Text] widget used in rendering the second button widget
+  ///by default:
+  ///* `const Text("Cancel")`
+  final Text cancelButtonText;
+
+  ///the width set to buttons both MainButton and SecondaryButton
+  ///by default it's 200
+  final double buttonSize;
+
+  ///The opacity applied to the secondary button background color
+  ///by default it's 0.2
+  final double cancelButtonColorOpacity;
+
+  ///define whether the popup is cancelable when pressing outside it.
+  ///by default `cancelable = true`
+  final bool cancelable;
+
+  /// The popup corners radius
+  /// by default `cornerRadiusType = CORNER_RADIUS_TYPES.BOTTOM_ONLY`
+  /// possible values:
+  /// ```dart
+  /// {
+  /// BOTTOM_ONLY,
+  /// TOP_ONLY,
+  /// ALL_CORNERS,
+  /// NONE
+  /// }
+  /// ```
+  final CORNER_RADIUS_TYPES cornerRadiusType;
 
   @override
   Widget build(BuildContext context) {
     return Container(
       height: this.height,
       color: Color(0x00000000),
-      child: _renderSimpleAlert(),
+      child: _renderMainWidget(),
     );
   }
 
-  _renderSimpleAlert() {
+  ///render the main widget of the popup
+  ///the stack contains the emoji icon with the popup content
+  ///
+  _renderMainWidget() {
     return Stack(
       children: [
         Align(
@@ -83,7 +164,7 @@ class EmojiAlert extends StatelessWidget {
                 color: this.background, borderRadius: _renderBorderRadius()),
             child: Padding(
               padding: EdgeInsets.all(30),
-              child: _renderSimpleAlertBody(),
+              child: _renderPopupContent(),
             ),
           ),
         ),
@@ -96,7 +177,9 @@ class EmojiAlert extends StatelessWidget {
     );
   }
 
-  _renderSimpleAlertBody() {
+  ///render the alert content body using [description] and [title] widget
+  ///
+  _renderPopupContent() {
     return Column(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
@@ -115,41 +198,43 @@ class EmojiAlert extends StatelessWidget {
             this.description,
           ],
         ),
-        _renderButtons()
+        _renderAlertButtons()
       ],
     );
   }
 
-  Widget _renderButtons() {
-    if (!this.cancelButtonEnabled && !this.confirmButtonEnabled) {
+  ///Render the alert buttons based on the parameters given
+  ///
+  Widget _renderAlertButtons() {
+    if (!this.enableSecondaryButton && !this.enableMainButton) {
       return Container();
     } else {
-      if (this.cancelButtonEnabled && !this.confirmButtonEnabled) {
-        return CancelButton(
+      if (this.enableSecondaryButton && !this.enableMainButton) {
+        return SecondaryButton(
             buttonSize: buttonSize,
-            cancelButtonColor: cancelButtonColor,
-            cancelButtonText: cancelButtonText,
-            onButtonPressed: this.onCancelButtonPressed,
+            buttonColor: secondaryButtonColor,
+            buttonText: cancelButtonText,
+            onButtonPressed: this.onSecondaryButtonPressed,
             backgroundOpacity: this.cancelButtonColorOpacity);
-      } else if (!this.cancelButtonEnabled && this.confirmButtonEnabled) {
-        return ConfirmButton(
+      } else if (!this.enableSecondaryButton && this.enableMainButton) {
+        return MainButton(
             buttonSize: buttonSize,
-            confirmButtonText: confirmButtonText,
-            confirmButtonColor: confirmButtonColor,
-            onButtonPressed: this.onConfirmButtonPressed);
+            buttonText: mainButtonText,
+            buttonColor: mainButtonColor,
+            onButtonPressed: this.onMainButtonPressed);
       } else {
         return Column(
           children: [
-            ConfirmButton(
+            MainButton(
                 buttonSize: buttonSize,
-                confirmButtonText: confirmButtonText,
-                confirmButtonColor: confirmButtonColor,
-                onButtonPressed: this.onConfirmButtonPressed),
-            CancelButton(
+                buttonText: mainButtonText,
+                buttonColor: mainButtonColor,
+                onButtonPressed: this.onMainButtonPressed),
+            SecondaryButton(
                 buttonSize: buttonSize,
-                cancelButtonColor: cancelButtonColor,
-                cancelButtonText: cancelButtonText,
-                onButtonPressed: this.onCancelButtonPressed,
+                buttonColor: secondaryButtonColor,
+                buttonText: cancelButtonText,
+                onButtonPressed: this.onSecondaryButtonPressed,
                 backgroundOpacity: this.cancelButtonColorOpacity),
           ],
         );
@@ -157,6 +242,8 @@ class EmojiAlert extends StatelessWidget {
     }
   }
 
+  ///Calculate the corner radius based on the [cornerRadiusType] parameter
+  ///
   _renderBorderRadius() {
     switch (this.cornerRadiusType) {
       case CORNER_RADIUS_TYPES.ALL_CORNERS:
@@ -176,6 +263,8 @@ class EmojiAlert extends StatelessWidget {
     }
   }
 
+  ///Display the alert in a dialog form
+  ///[context] the app context to display the alert
   displayAlert(BuildContext context) {
     showDialog(
         context: context,
@@ -189,6 +278,8 @@ class EmojiAlert extends StatelessWidget {
         });
   }
 
+  ///Display the alert content in a bottom sheet modal
+  ///[context] the app context to display the alert
   displayBottomSheet(BuildContext context) {
     showModalBottomSheet(
         isDismissible: this.cancelable,

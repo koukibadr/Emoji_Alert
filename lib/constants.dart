@@ -11,3 +11,6 @@ const String EMOJI_SMILE = "assets/images/smile.png";
 const String EMOJI_WINK = "assets/images/wink.png";
 
 const String PACKAGE_NAME = 'emoji_alert';
+
+const String CONFIRM_STRING = "Confirm";
+const String CANCEL_STRING = "Cancel";
