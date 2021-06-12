@@ -1,5 +1,5 @@
 import 'package:emoji_alert/constants.dart';
-import 'package:emoji_alert/emoji_type.dart';
+import 'package:emoji_alert/arrays.dart';
 import 'package:flutter/material.dart';
 
 class EmojiIcon extends StatelessWidget {

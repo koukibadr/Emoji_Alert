@@ -1,5 +1,5 @@
 import 'package:emoji_alert/emoji_alert.dart';
-import 'package:emoji_alert/emoji_type.dart';
+import 'package:emoji_alert/arrays.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -37,19 +37,23 @@ class HomeScreen extends StatelessWidget {
 
   displayAlert(context) {
     EmojiAlert(
-      description: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Text("Please enter your name"),
-          Container(
-            width: 200,
-            child: TextField(
-              
-            ),
-          ),
-        ],
-      ),
-      height: 400,
-    ).show(context);
+      alertTitle: Text("Alert Title",
+          style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+      description: Text("Please enter your name"),
+      height: 300,
+      confirmButtonEnabled: true,
+      confirmButtonText: Text("Confirmer"),
+      confirmButtonColor: Colors.green,
+      onConfirmButtonPressed: () {
+        print("Hello I'm Badr");
+      },
+      cancelable: false,
+      cancelButtonEnabled: true,
+      onCancelButtonPressed: () {
+        Navigator.pop(context);
+      },
+      cornerRadiusType: CORNER_RADIUS_TYPES.ALL_CORNERS,
+      width: 400,
+    ).displayAlert(context);
   }
 }

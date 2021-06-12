@@ -1,6 +1,7 @@
 import 'package:emoji_alert/emoji_icon.dart';
-import 'package:emoji_alert/emoji_type.dart';
+import 'package:emoji_alert/arrays.dart';
 import 'package:emoji_alert/widgets/cancel_button.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import 'widgets/confirm_button.dart';
@@ -18,9 +19,8 @@ class EmojiAlert extends StatelessWidget {
   final EMOJI_TYPE emojiType;
 
   final double height;
+  final double? width;
   final double emojiSize;
-
-  final bool roundCorners;
 
   final Color background;
 
@@ -28,10 +28,16 @@ class EmojiAlert extends StatelessWidget {
   final Color cancelButtonColor;
   final bool confirmButtonEnabled;
   final bool cancelButtonEnabled;
-  final Text? confirmButtonText;
-  final Text? cancelButtonText;
+  final Text confirmButtonText;
+  final Text cancelButtonText;
 
   final double buttonSize;
+
+  final double cancelButtonColorOpacity;
+
+  final bool cancelable;
+
+  final CORNER_RADIUS_TYPES cornerRadiusType;
 
   EmojiAlert(
       {required this.description,
@@ -43,15 +49,18 @@ class EmojiAlert extends StatelessWidget {
       this.emojiType = EMOJI_TYPE.HAPPY,
       this.height = 200,
       this.emojiSize = 80,
-      this.roundCorners = true,
       this.background = Colors.white,
       this.confirmButtonColor = Colors.blue,
       this.cancelButtonColor = Colors.blue,
       this.confirmButtonEnabled = true,
       this.cancelButtonEnabled = false,
       this.confirmButtonText = const Text("Confirm"),
-      this.cancelButtonText,
-      this.buttonSize = 200});
+      this.cancelButtonText = const Text("Cancel"),
+      this.buttonSize = 200,
+      this.cancelButtonColorOpacity = 0.2,
+      this.cancelable = true,
+      this.cornerRadiusType = CORNER_RADIUS_TYPES.BOTTOM_ONLY,
+      this.width});
 
   @override
   Widget build(BuildContext context) {
@@ -69,14 +78,9 @@ class EmojiAlert extends StatelessWidget {
           alignment: Alignment.bottomCenter,
           child: Container(
             height: this.height - (this.emojiSize * 0.8),
+            width: this.width,
             decoration: BoxDecoration(
-                color: this.background,
-                borderRadius: this.roundCorners
-                    ? BorderRadius.only(
-                        bottomLeft: Radius.circular(20),
-                        bottomRight: Radius.circular(20),
-                      )
-                    : null),
+                color: this.background, borderRadius: _renderBorderRadius()),
             child: Padding(
               padding: EdgeInsets.all(30),
               child: _renderSimpleAlertBody(),
@@ -117,45 +121,81 @@ class EmojiAlert extends StatelessWidget {
   }
 
   Widget _renderButtons() {
-    if (!this.cancelButtonEnabled && this.confirmButtonEnabled) {
+    if (!this.cancelButtonEnabled && !this.confirmButtonEnabled) {
       return Container();
     } else {
       if (this.cancelButtonEnabled && !this.confirmButtonEnabled) {
         return CancelButton(
             buttonSize: buttonSize,
             cancelButtonColor: cancelButtonColor,
-            cancelButtonText: cancelButtonText!);
+            cancelButtonText: cancelButtonText,
+            onButtonPressed: this.onCancelButtonPressed,
+            backgroundOpacity: this.cancelButtonColorOpacity);
       } else if (!this.cancelButtonEnabled && this.confirmButtonEnabled) {
         return ConfirmButton(
             buttonSize: buttonSize,
             confirmButtonText: confirmButtonText,
-            confirmButtonColor: confirmButtonColor);
+            confirmButtonColor: confirmButtonColor,
+            onButtonPressed: this.onConfirmButtonPressed);
       } else {
         return Column(
           children: [
             ConfirmButton(
                 buttonSize: buttonSize,
                 confirmButtonText: confirmButtonText,
-                confirmButtonColor: confirmButtonColor),
+                confirmButtonColor: confirmButtonColor,
+                onButtonPressed: this.onConfirmButtonPressed),
             CancelButton(
                 buttonSize: buttonSize,
                 cancelButtonColor: cancelButtonColor,
-                cancelButtonText: cancelButtonText!),
+                cancelButtonText: cancelButtonText,
+                onButtonPressed: this.onCancelButtonPressed,
+                backgroundOpacity: this.cancelButtonColorOpacity),
           ],
         );
       }
     }
   }
 
-  show(BuildContext context) {
+  _renderBorderRadius() {
+    switch (this.cornerRadiusType) {
+      case CORNER_RADIUS_TYPES.ALL_CORNERS:
+        return BorderRadius.all(Radius.circular(20));
+      case CORNER_RADIUS_TYPES.BOTTOM_ONLY:
+        return BorderRadius.only(
+          bottomLeft: Radius.circular(20),
+          bottomRight: Radius.circular(20),
+        );
+      case CORNER_RADIUS_TYPES.TOP_ONLY:
+        return BorderRadius.only(
+          topLeft: Radius.circular(20),
+          topRight: Radius.circular(20),
+        );
+      default:
+        return null;
+    }
+  }
+
+  displayAlert(BuildContext context) {
     showDialog(
         context: context,
+        barrierDismissible: this.cancelable,
         builder: (context) {
           return AlertDialog(
             content: this,
             backgroundColor: Colors.transparent,
             contentPadding: EdgeInsets.all(0),
           );
+        });
+  }
+
+  displayBottomSheet(BuildContext context) {
+    showModalBottomSheet(
+        isDismissible: this.cancelable,
+        backgroundColor: Colors.transparent,
+        context: context,
+        builder: (context) {
+          return this;
         });
   }
 }
