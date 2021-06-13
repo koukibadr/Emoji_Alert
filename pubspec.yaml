@@ -1,6 +1,6 @@
 name: emoji_alert
 description: Flutter Emoji Alert, give you the possiblity to create beautiful yet simple alert dialogs and bottom sheet modals
-version: 0.0.1
+version: 1.0.0
 homepage: https://github.com/koukibadr/Emoji_Alert
 
 environment:
