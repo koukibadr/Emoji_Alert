@@ -1,3 +1,7 @@
-## [0.0.1] - TODO: Add release date.
+## [1.0.0] - 06/13/2021
 
-* TODO: Describe initial release.
+* Variety of emojis
+* Customizable content 
+* Customizable buttons
+* Display options (center, bottom)
+* Customizable borders
