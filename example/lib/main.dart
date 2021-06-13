@@ -70,7 +70,8 @@ class HomeScreen extends StatelessWidget {
                   onPressed: () {
                     displayBottomSheetAlert(context);
                   },
-                  child: Text("Bottom Sheet Alert"))
+                  child: Text("Bottom Sheet Alert")
+              ),
             ],
           )),
     );
