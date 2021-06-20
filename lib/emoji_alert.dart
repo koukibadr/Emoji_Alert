@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:emoji_alert/emoji_icon.dart';
 import 'package:emoji_alert/arrays.dart';
 import 'package:emoji_alert/widgets/secondary_button.dart';
@@ -12,7 +14,7 @@ import 'widgets/main_button.dart';
 ///[description] is the only required parameter
 ///by default it creates White popup with [emojiType] set to [EMOJI_TYPE.HAPPY]
 ///without any button
-class EmojiAlert extends StatelessWidget {
+class EmojiAlert extends StatefulWidget {
   EmojiAlert(
       {required this.description,
       this.alertTitle,
@@ -32,7 +34,8 @@ class EmojiAlert extends StatelessWidget {
       this.cancelButtonColorOpacity = DEFAULT_OPACITY,
       this.cancelable = true,
       this.cornerRadiusType = CORNER_RADIUS_TYPES.BOTTOM_ONLY,
-      this.width});
+      this.width,
+      this.animationType = ANIMATION_TYPE.NONE});
 
   ///Widget used as body in the popup dialog
   ///required attribute
@@ -140,128 +143,21 @@ class EmojiAlert extends StatelessWidget {
   /// ```
   final CORNER_RADIUS_TYPES cornerRadiusType;
 
+  ///Type of animation that will be applied to the emoji icon
+  ///values:
+  ///```dart
+  ///{
+  ///NONE,
+  ///FADEIN,
+  ///TRANSITION,
+  ///ROTATION
+  ///}
+  ///```
+  ///by default it's [ANIMATION_TYPE.NONE]
+  final ANIMATION_TYPE animationType;
+
   @override
-  Widget build(BuildContext context) {
-    return Container(
-      height: this.height,
-      color: Color(0x00000000),
-      child: _renderMainWidget(),
-    );
-  }
-
-  ///render the main widget of the popup
-  ///the stack contains the emoji icon with the popup content
-  ///
-  _renderMainWidget() {
-    return Stack(
-      children: [
-        Align(
-          alignment: Alignment.bottomCenter,
-          child: Container(
-            height: this.height - (this.emojiSize * 0.8),
-            width: this.width,
-            decoration: BoxDecoration(
-                color: this.background, borderRadius: _renderBorderRadius()),
-            child: Padding(
-              padding: EdgeInsets.all(30),
-              child: _renderPopupContent(),
-            ),
-          ),
-        ),
-        Align(
-          alignment: Alignment.topCenter,
-          child:
-              EmojiIcon(emojiType: this.emojiType, emojiSize: this.emojiSize),
-        ),
-      ],
-    );
-  }
-
-  ///render the alert content body using [description] and [title] widget
-  ///
-  _renderPopupContent() {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        Column(
-          children: [
-            this.alertTitle != null
-                ? Column(
-                    children: [
-                      this.alertTitle!,
-                      SizedBox(
-                        height: 20,
-                      ),
-                    ],
-                  )
-                : Container(),
-            this.description,
-          ],
-        ),
-        _renderAlertButtons()
-      ],
-    );
-  }
-
-  ///Render the alert buttons based on the parameters given
-  ///
-  Widget _renderAlertButtons() {
-    if (!this.enableSecondaryButton && !this.enableMainButton) {
-      return Container();
-    } else {
-      if (this.enableSecondaryButton && !this.enableMainButton) {
-        return SecondaryButton(
-            buttonSize: buttonSize,
-            buttonColor: secondaryButtonColor,
-            buttonText: secondaryButtonText,
-            onButtonPressed: this.onSecondaryButtonPressed,
-            backgroundOpacity: this.cancelButtonColorOpacity);
-      } else if (!this.enableSecondaryButton && this.enableMainButton) {
-        return MainButton(
-            buttonSize: buttonSize,
-            buttonText: mainButtonText,
-            buttonColor: mainButtonColor,
-            onButtonPressed: this.onMainButtonPressed);
-      } else {
-        return Column(
-          children: [
-            MainButton(
-                buttonSize: buttonSize,
-                buttonText: mainButtonText,
-                buttonColor: mainButtonColor,
-                onButtonPressed: this.onMainButtonPressed),
-            SecondaryButton(
-                buttonSize: buttonSize,
-                buttonColor: secondaryButtonColor,
-                buttonText: secondaryButtonText,
-                onButtonPressed: this.onSecondaryButtonPressed,
-                backgroundOpacity: this.cancelButtonColorOpacity),
-          ],
-        );
-      }
-    }
-  }
-
-  ///Calculate the corner radius based on the [cornerRadiusType] parameter
-  ///
-  _renderBorderRadius() {
-    switch (this.cornerRadiusType) {
-      case CORNER_RADIUS_TYPES.ALL_CORNERS:
-        return BorderRadius.all(Radius.circular(20));
-      case CORNER_RADIUS_TYPES.BOTTOM_ONLY:
-        return BorderRadius.only(
-          bottomLeft: Radius.circular(20),
-          bottomRight: Radius.circular(20),
-        );
-      case CORNER_RADIUS_TYPES.TOP_ONLY:
-        return BorderRadius.only(
-          topLeft: Radius.circular(20),
-          topRight: Radius.circular(20),
-        );
-      default:
-        return null;
-    }
-  }
+  _EmojiAlertState createState() => _EmojiAlertState();
 
   ///Display the alert in a dialog form
   ///[context] the app context to display the alert
@@ -288,5 +184,158 @@ class EmojiAlert extends StatelessWidget {
         builder: (context) {
           return this;
         });
+  }
+}
+
+class _EmojiAlertState extends State<EmojiAlert> {
+  late double opacity;
+
+  @override
+  void initState() {
+    super.initState();
+    this.opacity = 0;
+    Timer(Duration(milliseconds: 200), () {
+      setState(() {
+        this.opacity = 1;
+      });
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      height: this.widget.height,
+      color: Color(0x00000000),
+      child: _renderMainWidget(),
+    );
+  }
+
+  ///render the main widget of the popup
+  ///the stack contains the emoji icon with the popup content
+  ///
+  _renderMainWidget() {
+    return Stack(
+      children: [
+        Align(
+          alignment: Alignment.bottomCenter,
+          child: Container(
+            height: this.widget.height - (this.widget.emojiSize * 0.8),
+            width: this.widget.width,
+            decoration: BoxDecoration(
+                color: this.widget.background,
+                borderRadius: _renderBorderRadius()),
+            child: Padding(
+              padding: EdgeInsets.all(30),
+              child: _renderPopupContent(),
+            ),
+          ),
+        ),
+        Align(
+          alignment: Alignment.topCenter,
+          child: _renderAnimatedEmoji(EmojiIcon(
+              emojiType: this.widget.emojiType,
+              emojiSize: this.widget.emojiSize)),
+        ),
+      ],
+    );
+  }
+
+  Widget _renderAnimatedEmoji(Widget emoji) {
+    switch (this.widget.animationType) {
+      case ANIMATION_TYPE.FADEIN:
+        return AnimatedOpacity(
+            duration: Duration(milliseconds: 400),
+            opacity: this.opacity,
+            child: emoji);
+      default:
+        return emoji;
+    }
+  }
+
+  ///render the alert content body using [widget.description] and [title] widget
+  ///
+  _renderPopupContent() {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Column(
+          children: [
+            this.widget.alertTitle != null
+                ? Column(
+                    children: [
+                      this.widget.alertTitle!,
+                      SizedBox(
+                        height: 20,
+                      ),
+                    ],
+                  )
+                : Container(),
+            this.widget.description,
+          ],
+        ),
+        _renderAlertButtons()
+      ],
+    );
+  }
+
+  ///Render the alert buttons based on the parameters given
+  ///
+  Widget _renderAlertButtons() {
+    if (!this.widget.enableSecondaryButton && !this.widget.enableMainButton) {
+      return Container();
+    } else {
+      if (this.widget.enableSecondaryButton && !this.widget.enableMainButton) {
+        return SecondaryButton(
+            buttonSize: widget.buttonSize,
+            buttonColor: widget.secondaryButtonColor,
+            buttonText: widget.secondaryButtonText,
+            onButtonPressed: this.widget.onSecondaryButtonPressed,
+            backgroundOpacity: this.widget.cancelButtonColorOpacity);
+      } else if (!this.widget.enableSecondaryButton &&
+          this.widget.enableMainButton) {
+        return MainButton(
+            buttonSize: widget.buttonSize,
+            buttonText: widget.mainButtonText,
+            buttonColor: widget.mainButtonColor,
+            onButtonPressed: this.widget.onMainButtonPressed);
+      } else {
+        return Column(
+          children: [
+            MainButton(
+                buttonSize: widget.buttonSize,
+                buttonText: widget.mainButtonText,
+                buttonColor: widget.mainButtonColor,
+                onButtonPressed: this.widget.onMainButtonPressed),
+            SecondaryButton(
+                buttonSize: widget.buttonSize,
+                buttonColor: widget.secondaryButtonColor,
+                buttonText: widget.secondaryButtonText,
+                onButtonPressed: this.widget.onSecondaryButtonPressed,
+                backgroundOpacity: this.widget.cancelButtonColorOpacity),
+          ],
+        );
+      }
+    }
+  }
+
+  ///Calculate the corner radius based on the [widget.cornerRadiusType] parameter
+  ///
+  _renderBorderRadius() {
+    switch (this.widget.cornerRadiusType) {
+      case CORNER_RADIUS_TYPES.ALL_CORNERS:
+        return BorderRadius.all(Radius.circular(20));
+      case CORNER_RADIUS_TYPES.BOTTOM_ONLY:
+        return BorderRadius.only(
+          bottomLeft: Radius.circular(20),
+          bottomRight: Radius.circular(20),
+        );
+      case CORNER_RADIUS_TYPES.TOP_ONLY:
+        return BorderRadius.only(
+          topLeft: Radius.circular(20),
+          topRight: Radius.circular(20),
+        );
+      default:
+        return null;
+    }
   }
 }

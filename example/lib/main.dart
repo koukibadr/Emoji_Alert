@@ -84,7 +84,8 @@ class HomeScreen extends StatelessWidget {
         Text("Simple Example of the popup"),
         Text("with minumum attributes"),
       ],
-    )).displayAlert(context);
+    ),
+    animationType: ANIMATION_TYPE.FADEIN,).displayAlert(context);
   }
 
   displayShockedAlert(context) {
