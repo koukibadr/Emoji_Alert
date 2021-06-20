@@ -85,7 +85,7 @@ class HomeScreen extends StatelessWidget {
         Text("with minumum attributes"),
       ],
     ),
-    animationType: ANIMATION_TYPE.FADEIN,).displayAlert(context);
+    animationType: ANIMATION_TYPE.NONE,).displayAlert(context);
   }
 
   displayShockedAlert(context) {

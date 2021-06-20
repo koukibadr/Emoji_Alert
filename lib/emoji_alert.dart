@@ -10,6 +10,8 @@ import 'constants.dart';
 import 'sizes.dart';
 import 'widgets/main_button.dart';
 
+import 'dart:math' as math;
+
 ///Creates the main EmojiAlert popup
 ///[description] is the only required parameter
 ///by default it creates White popup with [emojiType] set to [EMOJI_TYPE.HAPPY]
@@ -187,18 +189,51 @@ class EmojiAlert extends StatefulWidget {
   }
 }
 
-class _EmojiAlertState extends State<EmojiAlert> {
+class _EmojiAlertState extends State<EmojiAlert> with TickerProviderStateMixin {
   late double opacity;
+  late AnimationController? slideController;
+  late Animation<Offset>? _offsetAnimation;
+  late AnimationController? rotateController;
 
   @override
   void initState() {
     super.initState();
-    this.opacity = 0;
-    Timer(Duration(milliseconds: 200), () {
-      setState(() {
-        this.opacity = 1;
+
+    _executeAnimation();
+  }
+
+  _executeAnimation() {
+    if (this.widget.animationType == ANIMATION_TYPE.TRANSITION) {
+      slideController = AnimationController(
+        duration: const Duration(milliseconds: 500),
+        vsync: this,
+      );
+      _offsetAnimation = Tween<Offset>(
+        begin: const Offset(0, 1),
+        end: Offset.zero,
+      ).animate(CurvedAnimation(
+        parent: slideController!,
+        curve: Curves.ease,
+      ));
+      Timer(Duration(milliseconds: 50), () {
+        setState(() {
+          slideController!.forward();
+        });
       });
-    });
+    } else if (this.widget.animationType == ANIMATION_TYPE.FADEIN) {
+      this.opacity = 0;
+      Timer(Duration(milliseconds: 200), () {
+        setState(() {
+          this.opacity = 1;
+        });
+      });
+    } else if (this.widget.animationType == ANIMATION_TYPE.ROTATION) {
+      rotateController = AnimationController(
+          vsync: this, duration: Duration(milliseconds: 300));
+      Timer(Duration(milliseconds: 120), () {
+        rotateController!.forward();
+      });
+    }
   }
 
   @override
@@ -247,6 +282,22 @@ class _EmojiAlertState extends State<EmojiAlert> {
             duration: Duration(milliseconds: 400),
             opacity: this.opacity,
             child: emoji);
+      case ANIMATION_TYPE.TRANSITION:
+        return SlideTransition(
+          position: _offsetAnimation!,
+          child: emoji,
+        );
+      case ANIMATION_TYPE.ROTATION:
+        return AnimatedBuilder(
+          animation: rotateController!,
+          builder: (_, child) {
+            return Transform.rotate(
+              angle: rotateController!.value * 2 * math.pi,
+              child: child,
+            );
+          },
+          child: emoji,
+        );
       default:
         return emoji;
     }
