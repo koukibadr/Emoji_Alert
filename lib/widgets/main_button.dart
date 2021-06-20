@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
 
-
 ///Creates [ElevatedButton] widget with a given width size
 ///
 class MainButton extends StatelessWidget {
-  
   MainButton(
       {required this.buttonSize,
       required this.buttonText,
@@ -14,11 +12,11 @@ class MainButton extends StatelessWidget {
   ///The button size width
   ///
   final double buttonSize;
-  
+
   ///The confirm button [Text] widget
   ///
   final Text? buttonText;
-  
+
   ///The button background color
   ///
   final Color buttonColor;
@@ -37,8 +35,7 @@ class MainButton extends StatelessWidget {
         },
         child: this.buttonText,
         style: ButtonStyle(
-          backgroundColor:
-              MaterialStateProperty.all<Color>(this.buttonColor),
+          backgroundColor: MaterialStateProperty.all<Color>(this.buttonColor),
         ),
       ),
     );

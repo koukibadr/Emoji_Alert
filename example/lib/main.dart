@@ -81,11 +81,11 @@ class HomeScreen extends StatelessWidget {
     EmojiAlert(
         description: Column(
       children: [
-        Text("Simple Example of the popup"),
-        Text("with minumum attributes"),
+        Text("Simple Example with animation"),
+        Text("This is a transition animation"),
       ],
     ),
-    animationType: ANIMATION_TYPE.NONE,).displayAlert(context);
+    animationType: ANIMATION_TYPE.TRANSITION,).displayAlert(context);
   }
 
   displayShockedAlert(context) {
