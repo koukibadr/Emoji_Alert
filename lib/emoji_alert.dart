@@ -1,13 +1,13 @@
 import 'dart:async';
 
-import 'package:emoji_alert/emoji_icon.dart';
-import 'package:emoji_alert/arrays.dart';
+import 'package:emoji_alert/widgets/emoji_icon.dart';
+import 'package:emoji_alert/resources/arrays.dart';
 import 'package:emoji_alert/widgets/secondary_button.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-import 'constants.dart';
-import 'sizes.dart';
+import 'resources/constants.dart';
+import 'resources/sizes.dart';
 import 'widgets/main_button.dart';
 
 import 'dart:math' as math;

@@ -1,5 +1,5 @@
 import 'package:emoji_alert/emoji_alert.dart';
-import 'package:emoji_alert/arrays.dart';
+import 'package:emoji_alert/resources/arrays.dart';
 import 'package:flutter/material.dart';
 
 void main() {

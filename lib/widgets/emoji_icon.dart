@@ -1,6 +1,6 @@
-import 'package:emoji_alert/constants.dart';
-import 'package:emoji_alert/arrays.dart';
-import 'package:emoji_alert/sizes.dart';
+import 'package:emoji_alert/resources/constants.dart';
+import 'package:emoji_alert/resources/arrays.dart';
+import 'package:emoji_alert/resources/sizes.dart';
 import 'package:flutter/material.dart';
 
 ///Creates the emoji icon with the given [emojiType]

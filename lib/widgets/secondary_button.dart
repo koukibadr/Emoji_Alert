@@ -1,4 +1,4 @@
-import 'package:emoji_alert/sizes.dart';
+import 'package:emoji_alert/resources/sizes.dart';
 import 'package:flutter/material.dart';
 
 class SecondaryButton extends StatelessWidget {
