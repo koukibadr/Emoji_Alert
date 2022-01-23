@@ -89,7 +89,7 @@ class HomeScreen extends StatelessWidget {
         ],
       ),
       enableMainButton: true,
-      animationType: ANIMATION_TYPE.TRANSITION,
+      animationType: ANIMATION_TYPE.transition,
     ).displayAlert(context);
   }
 
@@ -108,7 +108,7 @@ class HomeScreen extends StatelessWidget {
         ],
       ),
       cancelable: true,
-      emojiType: EMOJI_TYPE.JOYFUL,
+      emojiType: EMOJI_TYPE.joyful,
       height: 300,
     ).displayAlert(context);
   }
@@ -129,7 +129,7 @@ class HomeScreen extends StatelessWidget {
         Navigator.pop(context);
       },
       cancelable: false,
-      emojiType: EMOJI_TYPE.ANGRY,
+      emojiType: EMOJI_TYPE.angry,
       height: 300,
     ).displayAlert(context);
   }
@@ -151,7 +151,7 @@ class HomeScreen extends StatelessWidget {
       mainButtonText: Text("Save"),
       secondaryButtonText: Text("Discard"),
       cancelable: true,
-      emojiType: EMOJI_TYPE.COOL,
+      emojiType: EMOJI_TYPE.cool,
       height: 300,
     ).displayAlert(context);
   }
@@ -172,7 +172,7 @@ class HomeScreen extends StatelessWidget {
         ],
       ),
       enableMainButton: true,
-      cornerRadiusType: CORNER_RADIUS_TYPES.TOP_ONLY,
+      cornerRadiusType: CORNER_RADIUS_TYPES.topOnly,
       mainButtonColor: Colors.green,
       mainButtonText: Text("Save"),
       onMainButtonPressed: () {
@@ -180,7 +180,7 @@ class HomeScreen extends StatelessWidget {
         displayAngryAlert(context);
       },
       cancelable: true,
-      emojiType: EMOJI_TYPE.SMILE,
+      emojiType: EMOJI_TYPE.smile,
       width: 300,
       height: 300,
     ).displayBottomSheet(context);

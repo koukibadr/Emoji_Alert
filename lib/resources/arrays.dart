@@ -1,33 +1,43 @@
 import 'constants.dart';
 
 enum EMOJI_TYPE {
-  ANGRY,
-  CONFUSED,
-  COOL,
-  HAPPY,
-  JOYFUL,
-  LAUGHING,
-  SAD,
-  SCARED,
-  SHOCKED,
-  SMILE,
-  WINK
+  angry,
+  confused,
+  cool,
+  happy,
+  joyful,
+  laughing,
+  sad,
+  scared,
+  shocked,
+  smile,
+  wink
 }
 
-const Map<EMOJI_TYPE, String> EMOJIS = {
-  EMOJI_TYPE.ANGRY: EMOJI_ANGRY,
-  EMOJI_TYPE.CONFUSED: EMOJI_CONFUSED,
-  EMOJI_TYPE.COOL: EMOJI_COOL,
-  EMOJI_TYPE.JOYFUL: EMOJI_JOYFUL,
-  EMOJI_TYPE.HAPPY: EMOJI_HAPPY,
-  EMOJI_TYPE.LAUGHING: EMOJI_LAUGHING,
-  EMOJI_TYPE.SAD: EMOJI_SAD,
-  EMOJI_TYPE.SCARED: EMOJI_SCARED,
-  EMOJI_TYPE.SHOCKED: EMOJI_SHOCKED,
-  EMOJI_TYPE.SMILE: EMOJI_SMILE,
-  EMOJI_TYPE.WINK: EMOJI_WINK
+const Map<EMOJI_TYPE, String> emojis = {
+  EMOJI_TYPE.angry: EMOJI_ANGRY,
+  EMOJI_TYPE.confused: EMOJI_CONFUSED,
+  EMOJI_TYPE.cool: EMOJI_COOL,
+  EMOJI_TYPE.joyful: EMOJI_JOYFUL,
+  EMOJI_TYPE.happy: EMOJI_HAPPY,
+  EMOJI_TYPE.laughing: EMOJI_LAUGHING,
+  EMOJI_TYPE.sad: EMOJI_SAD,
+  EMOJI_TYPE.scared: EMOJI_SCARED,
+  EMOJI_TYPE.shocked: EMOJI_SHOCKED,
+  EMOJI_TYPE.smile: EMOJI_SMILE,
+  EMOJI_TYPE.wink: EMOJI_WINK
 };
 
-enum CORNER_RADIUS_TYPES { BOTTOM_ONLY, TOP_ONLY, ALL_CORNERS, NONE }
+enum CORNER_RADIUS_TYPES {
+  bottomOnly,
+  topOnly,
+  allCorners,
+  none,
+}
 
-enum ANIMATION_TYPE { NONE, FADEIN, TRANSITION, ROTATION }
+enum ANIMATION_TYPE {
+  none,
+  fadeIn,
+  transition,
+  rotation,
+}

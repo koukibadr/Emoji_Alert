@@ -14,7 +14,7 @@ import 'dart:math' as math;
 
 ///Creates the main EmojiAlert popup
 ///[description] is the only required parameter
-///by default it creates White popup with [emojiType] set to [EMOJI_TYPE.HAPPY]
+///by default it creates White popup with [emojiType] set to [EMOJI_TYPE.happy]
 ///without any button
 class EmojiAlert extends StatefulWidget {
   EmojiAlert(
@@ -24,7 +24,7 @@ class EmojiAlert extends StatefulWidget {
       this.enableSecondaryButton = false,
       this.onSecondaryButtonPressed,
       this.onMainButtonPressed,
-      this.emojiType = EMOJI_TYPE.HAPPY,
+      this.emojiType = EMOJI_TYPE.happy,
       this.height = DEFAULT_POPUP_HEIGHT,
       this.emojiSize = DEFAULT_EMOJI_SIZE,
       this.background = Colors.white,
@@ -35,9 +35,9 @@ class EmojiAlert extends StatefulWidget {
       this.buttonSize = DEFAULT_BUTTON_SIZE,
       this.cancelButtonColorOpacity = DEFAULT_OPACITY,
       this.cancelable = true,
-      this.cornerRadiusType = CORNER_RADIUS_TYPES.BOTTOM_ONLY,
+      this.cornerRadiusType = CORNER_RADIUS_TYPES.bottomOnly,
       this.width,
-      this.animationType = ANIMATION_TYPE.NONE});
+      this.animationType = ANIMATION_TYPE.none});
 
   ///Widget used as body in the popup dialog
   ///required attribute
@@ -155,7 +155,7 @@ class EmojiAlert extends StatefulWidget {
   ///ROTATION
   ///}
   ///```
-  ///by default it's [ANIMATION_TYPE.NONE]
+  ///by default it's [ANIMATION_TYPE.none]
   final ANIMATION_TYPE animationType;
 
   @override
@@ -203,7 +203,7 @@ class _EmojiAlertState extends State<EmojiAlert> with TickerProviderStateMixin {
   }
 
   _executeAnimation() {
-    if (this.widget.animationType == ANIMATION_TYPE.TRANSITION) {
+    if (this.widget.animationType == ANIMATION_TYPE.transition) {
       slideController = AnimationController(
         duration: const Duration(milliseconds: 500),
         vsync: this,
@@ -220,14 +220,14 @@ class _EmojiAlertState extends State<EmojiAlert> with TickerProviderStateMixin {
           slideController!.forward();
         });
       });
-    } else if (this.widget.animationType == ANIMATION_TYPE.FADEIN) {
+    } else if (this.widget.animationType == ANIMATION_TYPE.fadeIn) {
       this.opacity = 0;
       Timer(Duration(milliseconds: 200), () {
         setState(() {
           this.opacity = 1;
         });
       });
-    } else if (this.widget.animationType == ANIMATION_TYPE.ROTATION) {
+    } else if (this.widget.animationType == ANIMATION_TYPE.rotation) {
       rotateController = AnimationController(
           vsync: this, duration: Duration(milliseconds: 300));
       Timer(Duration(milliseconds: 120), () {
@@ -277,17 +277,17 @@ class _EmojiAlertState extends State<EmojiAlert> with TickerProviderStateMixin {
 
   Widget _renderAnimatedEmoji(Widget emoji) {
     switch (this.widget.animationType) {
-      case ANIMATION_TYPE.FADEIN:
+      case ANIMATION_TYPE.fadeIn:
         return AnimatedOpacity(
             duration: Duration(milliseconds: 400),
             opacity: this.opacity,
             child: emoji);
-      case ANIMATION_TYPE.TRANSITION:
+      case ANIMATION_TYPE.transition:
         return SlideTransition(
           position: _offsetAnimation!,
           child: emoji,
         );
-      case ANIMATION_TYPE.ROTATION:
+      case ANIMATION_TYPE.rotation:
         return AnimatedBuilder(
           animation: rotateController!,
           builder: (_, child) {
@@ -373,14 +373,14 @@ class _EmojiAlertState extends State<EmojiAlert> with TickerProviderStateMixin {
   ///
   _renderBorderRadius() {
     switch (this.widget.cornerRadiusType) {
-      case CORNER_RADIUS_TYPES.ALL_CORNERS:
+      case CORNER_RADIUS_TYPES.allCorners:
         return BorderRadius.all(Radius.circular(20));
-      case CORNER_RADIUS_TYPES.BOTTOM_ONLY:
+      case CORNER_RADIUS_TYPES.bottomOnly:
         return BorderRadius.only(
           bottomLeft: Radius.circular(20),
           bottomRight: Radius.circular(20),
         );
-      case CORNER_RADIUS_TYPES.TOP_ONLY:
+      case CORNER_RADIUS_TYPES.topOnly:
         return BorderRadius.only(
           topLeft: Radius.circular(20),
           topRight: Radius.circular(20),
