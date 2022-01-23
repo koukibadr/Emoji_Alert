@@ -1,4 +1,4 @@
-const double DEFAULT_POPUP_HEIGHT = 200;
-const double DEFAULT_BUTTON_SIZE = 200;
-const double DEFAULT_EMOJI_SIZE = 80;
-const double DEFAULT_OPACITY = 0.2;
+const double defaultPopupHeight = 200;
+const double defaultButtonSize = 200;
+const double defaultEmojiSize = 80;
+const double defaultOpacity = 0.2;

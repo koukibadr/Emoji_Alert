@@ -7,7 +7,7 @@ class SecondaryButton extends StatelessWidget {
       required this.buttonColor,
       required this.buttonText,
       this.onButtonPressed,
-      this.backgroundOpacity = DEFAULT_OPACITY});
+      this.backgroundOpacity = defaultOpacity});
 
   ///The button size width
   ///
@@ -26,7 +26,7 @@ class SecondaryButton extends StatelessWidget {
   final Function? onButtonPressed;
 
   ///the opacity applied to the [buttonColor]
-  ///by default it's set to [DEFAULT_OPACITY]
+  ///by default it's set to [defaultOpacity]
   final double backgroundOpacity;
 
   @override

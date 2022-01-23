@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 
 ///Creates the emoji icon with the given [emojiType]
 class EmojiIcon extends StatelessWidget {
-  EmojiIcon({required this.emojiType, this.emojiSize = DEFAULT_EMOJI_SIZE});
+  EmojiIcon({required this.emojiType, this.emojiSize = defaultEmojiSize});
 
   ///The emoji that will be rendered
   ///by default `emojiType = EMOJI_TYPE.HAPPY`
@@ -27,7 +27,7 @@ class EmojiIcon extends StatelessWidget {
   final EMOJI_TYPE emojiType;
 
   ///The emoji size width
-  ///by default it's [DEFAULT_EMOJI_SIZE]
+  ///by default it's [defaultEmojiSize]
   final double emojiSize;
 
   @override
