@@ -12,6 +12,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Flutter Demo',
+      debugShowCheckedModeBanner: false,
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
@@ -70,8 +71,7 @@ class HomeScreen extends StatelessWidget {
                   onPressed: () {
                     displayBottomSheetAlert(context);
                   },
-                  child: Text("Bottom Sheet Alert")
-              ),
+                  child: Text("Bottom Sheet Alert")),
             ],
           )),
     );
@@ -79,13 +79,18 @@ class HomeScreen extends StatelessWidget {
 
   displayAlert(context) {
     EmojiAlert(
-        description: Column(
-      children: [
-        Text("Simple Example with animation"),
-        Text("This is a transition animation"),
-      ],
-    ),
-    animationType: ANIMATION_TYPE.TRANSITION,).displayAlert(context);
+      alertTitle:
+          Text("Emoji Alert", style: TextStyle(fontWeight: FontWeight.bold)),
+      height: 250,
+      description: Column(
+        children: [
+          Text("Simple Example with animation"),
+          Text("This is a transition animation"),
+        ],
+      ),
+      enableMainButton: true,
+      animationType: ANIMATION_TYPE.TRANSITION,
+    ).displayAlert(context);
   }
 
   displayShockedAlert(context) {
