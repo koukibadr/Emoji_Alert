@@ -2,12 +2,14 @@ import 'package:emoji_alert/resources/sizes.dart';
 import 'package:flutter/material.dart';
 
 class SecondaryButton extends StatelessWidget {
-  SecondaryButton(
-      {required this.buttonSize,
-      required this.buttonColor,
-      required this.buttonText,
-      this.onButtonPressed,
-      this.backgroundOpacity = defaultOpacity});
+  const SecondaryButton({
+    Key? key,
+    required this.buttonSize,
+    required this.buttonColor,
+    required this.buttonText,
+    this.onButtonPressed,
+    this.backgroundOpacity = defaultOpacity,
+  }) : super(key: key);
 
   ///The button size width
   ///
@@ -31,17 +33,19 @@ class SecondaryButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-        width: this.buttonSize,
-        child: TextButton(
-          onPressed: () {
-            this.onButtonPressed?.call();
-          },
-          child: this.buttonText,
-          style: ButtonStyle(
-            overlayColor: MaterialStateProperty.all<Color>(
-                this.buttonColor.withOpacity(this.backgroundOpacity)),
+    return SizedBox(
+      width: buttonSize,
+      child: TextButton(
+        onPressed: () {
+          onButtonPressed?.call();
+        },
+        child: buttonText,
+        style: ButtonStyle(
+          overlayColor: MaterialStateProperty.all<Color>(
+            buttonColor.withOpacity(backgroundOpacity),
           ),
-        ));
+        ),
+      ),
+    );
   }
 }

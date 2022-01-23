@@ -5,7 +5,11 @@ import 'package:flutter/material.dart';
 
 ///Creates the emoji icon with the given [emojiType]
 class EmojiIcon extends StatelessWidget {
-  EmojiIcon({required this.emojiType, this.emojiSize = defaultEmojiSize});
+  const EmojiIcon({
+    Key? key,
+    required this.emojiType,
+    this.emojiSize = defaultEmojiSize,
+  }) : super(key: key);
 
   ///The emoji that will be rendered
   ///by default `emojiType = EMOJI_TYPE.HAPPY`
@@ -33,8 +37,11 @@ class EmojiIcon extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Image(
-      image: AssetImage(emojis[this.emojiType] ?? "", package: packageName),
-      width: this.emojiSize,
+      image: AssetImage(
+        emojis[emojiType] ?? '',
+        package: packageName,
+      ),
+      width: emojiSize,
     );
   }
 }

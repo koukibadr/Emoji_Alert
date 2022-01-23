@@ -3,11 +3,13 @@ import 'package:flutter/material.dart';
 ///Creates [ElevatedButton] widget with a given width size
 ///
 class MainButton extends StatelessWidget {
-  MainButton(
-      {required this.buttonSize,
-      required this.buttonText,
-      required this.buttonColor,
-      this.onButtonPressed});
+  const MainButton({
+    Key? key,
+    required this.buttonSize,
+    required this.buttonText,
+    required this.buttonColor,
+    this.onButtonPressed,
+  }) : super(key: key);
 
   ///The button size width
   ///
@@ -27,15 +29,15 @@ class MainButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: this.buttonSize,
+    return SizedBox(
+      width: buttonSize,
       child: ElevatedButton(
         onPressed: () {
-          this.onButtonPressed?.call();
+          onButtonPressed?.call();
         },
-        child: this.buttonText,
+        child: buttonText,
         style: ButtonStyle(
-          backgroundColor: MaterialStateProperty.all<Color>(this.buttonColor),
+          backgroundColor: MaterialStateProperty.all<Color>(buttonColor),
         ),
       ),
     );
