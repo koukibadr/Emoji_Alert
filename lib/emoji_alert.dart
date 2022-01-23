@@ -1,11 +1,8 @@
 import 'dart:async';
-
 import 'package:emoji_alert/widgets/emoji_icon.dart';
 import 'package:emoji_alert/resources/arrays.dart';
 import 'package:emoji_alert/widgets/secondary_button.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-
 import 'resources/constants.dart';
 import 'resources/sizes.dart';
 import 'widgets/main_button.dart';
@@ -17,27 +14,29 @@ import 'dart:math' as math;
 ///by default it creates White popup with [emojiType] set to [EMOJI_TYPE.happy]
 ///without any button
 class EmojiAlert extends StatefulWidget {
-  EmojiAlert(
-      {required this.description,
-      this.alertTitle,
-      this.enableMainButton = false,
-      this.enableSecondaryButton = false,
-      this.onSecondaryButtonPressed,
-      this.onMainButtonPressed,
-      this.emojiType = EMOJI_TYPE.happy,
-      this.height = defaultPopupHeight,
-      this.emojiSize = defaultEmojiSize,
-      this.background = Colors.white,
-      this.mainButtonColor = Colors.blue,
-      this.secondaryButtonColor = Colors.blue,
-      this.mainButtonText = const Text(confirmString),
-      this.secondaryButtonText = const Text(cancelString),
-      this.buttonSize = defaultButtonSize,
-      this.cancelButtonColorOpacity = defaultOpacity,
-      this.cancelable = true,
-      this.cornerRadiusType = CORNER_RADIUS_TYPES.bottomOnly,
-      this.width,
-      this.animationType = ANIMATION_TYPE.none});
+  const EmojiAlert({
+    Key? key,
+    required this.description,
+    this.alertTitle,
+    this.enableMainButton = false,
+    this.enableSecondaryButton = false,
+    this.onSecondaryButtonPressed,
+    this.onMainButtonPressed,
+    this.emojiType = EMOJI_TYPE.happy,
+    this.height = defaultPopupHeight,
+    this.emojiSize = defaultEmojiSize,
+    this.background = Colors.white,
+    this.mainButtonColor = Colors.blue,
+    this.secondaryButtonColor = Colors.blue,
+    this.mainButtonText = const Text(confirmString),
+    this.secondaryButtonText = const Text(cancelString),
+    this.buttonSize = defaultButtonSize,
+    this.cancelButtonColorOpacity = defaultOpacity,
+    this.cancelable = true,
+    this.cornerRadiusType = CORNER_RADIUS_TYPES.bottomOnly,
+    this.width,
+    this.animationType = ANIMATION_TYPE.none,
+  }) : super(key: key);
 
   ///Widget used as body in the popup dialog
   ///required attribute
@@ -163,29 +162,31 @@ class EmojiAlert extends StatefulWidget {
 
   ///Display the alert in a dialog form
   ///[context] the app context to display the alert
-  displayAlert(BuildContext context) {
+  void displayAlert(BuildContext context) {
     showDialog(
-        context: context,
-        barrierDismissible: this.cancelable,
-        builder: (context) {
-          return AlertDialog(
-            content: this,
-            backgroundColor: Colors.transparent,
-            contentPadding: EdgeInsets.all(0),
-          );
-        });
+      context: context,
+      barrierDismissible: cancelable,
+      builder: (context) {
+        return AlertDialog(
+          content: this,
+          backgroundColor: Colors.transparent,
+          contentPadding: const EdgeInsets.all(0),
+        );
+      },
+    );
   }
 
   ///Display the alert content in a bottom sheet modal
   ///[context] the app context to display the alert
-  displayBottomSheet(BuildContext context) {
+  void displayBottomSheet(BuildContext context) {
     showModalBottomSheet(
-        isDismissible: this.cancelable,
-        backgroundColor: Colors.transparent,
-        context: context,
-        builder: (context) {
-          return this;
-        });
+      isDismissible: cancelable,
+      backgroundColor: Colors.transparent,
+      context: context,
+      builder: (context) {
+        return this;
+      },
+    );
   }
 }
 
@@ -202,8 +203,8 @@ class _EmojiAlertState extends State<EmojiAlert> with TickerProviderStateMixin {
     _executeAnimation();
   }
 
-  _executeAnimation() {
-    if (this.widget.animationType == ANIMATION_TYPE.transition) {
+  void _executeAnimation() {
+    if (widget.animationType == ANIMATION_TYPE.transition) {
       slideController = AnimationController(
         duration: const Duration(milliseconds: 500),
         vsync: this,
@@ -211,26 +212,30 @@ class _EmojiAlertState extends State<EmojiAlert> with TickerProviderStateMixin {
       _offsetAnimation = Tween<Offset>(
         begin: const Offset(0, 1),
         end: Offset.zero,
-      ).animate(CurvedAnimation(
-        parent: slideController!,
-        curve: Curves.ease,
-      ));
-      Timer(Duration(milliseconds: 50), () {
+      ).animate(
+        CurvedAnimation(
+          parent: slideController!,
+          curve: Curves.ease,
+        ),
+      );
+      Timer(const Duration(milliseconds: 50), () {
         setState(() {
           slideController!.forward();
         });
       });
-    } else if (this.widget.animationType == ANIMATION_TYPE.fadeIn) {
-      this.opacity = 0;
-      Timer(Duration(milliseconds: 200), () {
+    } else if (widget.animationType == ANIMATION_TYPE.fadeIn) {
+      opacity = 0;
+      Timer(const Duration(milliseconds: 200), () {
         setState(() {
-          this.opacity = 1;
+          opacity = 1;
         });
       });
-    } else if (this.widget.animationType == ANIMATION_TYPE.rotation) {
+    } else if (widget.animationType == ANIMATION_TYPE.rotation) {
       rotateController = AnimationController(
-          vsync: this, duration: Duration(milliseconds: 300));
-      Timer(Duration(milliseconds: 120), () {
+        vsync: this,
+        duration: const Duration(milliseconds: 300),
+      );
+      Timer(const Duration(milliseconds: 120), () {
         rotateController!.forward();
       });
     }
@@ -239,8 +244,8 @@ class _EmojiAlertState extends State<EmojiAlert> with TickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: this.widget.height,
-      color: Color(0x00000000),
+      height: widget.height,
+      color: const Color(0x00000000),
       child: _renderMainWidget(),
     );
   }
@@ -248,40 +253,45 @@ class _EmojiAlertState extends State<EmojiAlert> with TickerProviderStateMixin {
   ///render the main widget of the popup
   ///the stack contains the emoji icon with the popup content
   ///
-  _renderMainWidget() {
+  Widget _renderMainWidget() {
     return Stack(
       children: [
         Align(
           alignment: Alignment.bottomCenter,
           child: Container(
-            height: this.widget.height - (this.widget.emojiSize * 0.8),
-            width: this.widget.width,
+            height: widget.height - (widget.emojiSize * 0.8),
+            width: widget.width,
             decoration: BoxDecoration(
-                color: this.widget.background,
-                borderRadius: _renderBorderRadius()),
+              color: widget.background,
+              borderRadius: _renderBorderRadius(),
+            ),
             child: Padding(
-              padding: EdgeInsets.all(30),
+              padding: const EdgeInsets.all(30),
               child: _renderPopupContent(),
             ),
           ),
         ),
         Align(
           alignment: Alignment.topCenter,
-          child: _renderAnimatedEmoji(EmojiIcon(
-              emojiType: this.widget.emojiType,
-              emojiSize: this.widget.emojiSize)),
+          child: _renderAnimatedEmoji(
+            EmojiIcon(
+              emojiType: widget.emojiType,
+              emojiSize: widget.emojiSize,
+            ),
+          ),
         ),
       ],
     );
   }
 
   Widget _renderAnimatedEmoji(Widget emoji) {
-    switch (this.widget.animationType) {
+    switch (widget.animationType) {
       case ANIMATION_TYPE.fadeIn:
         return AnimatedOpacity(
-            duration: Duration(milliseconds: 400),
-            opacity: this.opacity,
-            child: emoji);
+          duration: const Duration(milliseconds: 400),
+          opacity: opacity,
+          child: emoji,
+        );
       case ANIMATION_TYPE.transition:
         return SlideTransition(
           position: _offsetAnimation!,
@@ -305,64 +315,65 @@ class _EmojiAlertState extends State<EmojiAlert> with TickerProviderStateMixin {
 
   ///render the alert content body using [widget.description] and [title] widget
   ///
-  _renderPopupContent() {
+  Widget _renderPopupContent() {
     return Column(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         Column(
           children: [
-            this.widget.alertTitle != null
+            widget.alertTitle != null
                 ? Column(
                     children: [
-                      this.widget.alertTitle!,
-                      SizedBox(
+                      widget.alertTitle!,
+                      const SizedBox(
                         height: 20,
                       ),
                     ],
                   )
                 : Container(),
-            this.widget.description,
+            widget.description,
           ],
         ),
-        _renderAlertButtons()
+        _renderAlertButtons() ?? const SizedBox.shrink()
       ],
     );
   }
 
   ///Render the alert buttons based on the parameters given
   ///
-  Widget _renderAlertButtons() {
-    if (!this.widget.enableSecondaryButton && !this.widget.enableMainButton) {
-      return Container();
-    } else {
-      if (this.widget.enableSecondaryButton && !this.widget.enableMainButton) {
+  Widget? _renderAlertButtons() {
+    if (widget.enableSecondaryButton || widget.enableMainButton) {
+      if (widget.enableSecondaryButton && !widget.enableMainButton) {
         return SecondaryButton(
-            buttonSize: widget.buttonSize,
-            buttonColor: widget.secondaryButtonColor,
-            buttonText: widget.secondaryButtonText,
-            onButtonPressed: this.widget.onSecondaryButtonPressed,
-            backgroundOpacity: this.widget.cancelButtonColorOpacity);
-      } else if (!this.widget.enableSecondaryButton &&
-          this.widget.enableMainButton) {
+          buttonSize: widget.buttonSize,
+          buttonColor: widget.secondaryButtonColor,
+          buttonText: widget.secondaryButtonText,
+          onButtonPressed: widget.onSecondaryButtonPressed,
+          backgroundOpacity: widget.cancelButtonColorOpacity,
+        );
+      } else if (!widget.enableSecondaryButton && widget.enableMainButton) {
         return MainButton(
-            buttonSize: widget.buttonSize,
-            buttonText: widget.mainButtonText,
-            buttonColor: widget.mainButtonColor,
-            onButtonPressed: this.widget.onMainButtonPressed);
+          buttonSize: widget.buttonSize,
+          buttonText: widget.mainButtonText,
+          buttonColor: widget.mainButtonColor,
+          onButtonPressed: widget.onMainButtonPressed,
+        );
       } else {
         return Column(
           children: [
             MainButton(
-                buttonSize: widget.buttonSize,
-                buttonText: widget.mainButtonText,
-                buttonColor: widget.mainButtonColor,
-                onButtonPressed: this.widget.onMainButtonPressed),
+              buttonSize: widget.buttonSize,
+              buttonText: widget.mainButtonText,
+              buttonColor: widget.mainButtonColor,
+              onButtonPressed: widget.onMainButtonPressed,
+            ),
             SecondaryButton(
-                buttonSize: widget.buttonSize,
-                buttonColor: widget.secondaryButtonColor,
-                buttonText: widget.secondaryButtonText,
-                onButtonPressed: this.widget.onSecondaryButtonPressed,
-                backgroundOpacity: this.widget.cancelButtonColorOpacity),
+              buttonSize: widget.buttonSize,
+              buttonColor: widget.secondaryButtonColor,
+              buttonText: widget.secondaryButtonText,
+              onButtonPressed: widget.onSecondaryButtonPressed,
+              backgroundOpacity: widget.cancelButtonColorOpacity,
+            ),
           ],
         );
       }
@@ -371,17 +382,17 @@ class _EmojiAlertState extends State<EmojiAlert> with TickerProviderStateMixin {
 
   ///Calculate the corner radius based on the [widget.cornerRadiusType] parameter
   ///
-  _renderBorderRadius() {
-    switch (this.widget.cornerRadiusType) {
+  BorderRadius? _renderBorderRadius() {
+    switch (widget.cornerRadiusType) {
       case CORNER_RADIUS_TYPES.allCorners:
-        return BorderRadius.all(Radius.circular(20));
+        return const BorderRadius.all(Radius.circular(20));
       case CORNER_RADIUS_TYPES.bottomOnly:
-        return BorderRadius.only(
+        return const BorderRadius.only(
           bottomLeft: Radius.circular(20),
           bottomRight: Radius.circular(20),
         );
       case CORNER_RADIUS_TYPES.topOnly:
-        return BorderRadius.only(
+        return const BorderRadius.only(
           topLeft: Radius.circular(20),
           topRight: Radius.circular(20),
         );
