@@ -33,7 +33,7 @@ class EmojiIcon extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Image(
-      image: AssetImage(emojis[this.emojiType] ?? "", package: PACKAGE_NAME),
+      image: AssetImage(emojis[this.emojiType] ?? "", package: packageName),
       width: this.emojiSize,
     );
   }

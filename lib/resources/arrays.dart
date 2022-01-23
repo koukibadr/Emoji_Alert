@@ -15,17 +15,17 @@ enum EMOJI_TYPE {
 }
 
 const Map<EMOJI_TYPE, String> emojis = {
-  EMOJI_TYPE.angry: EMOJI_ANGRY,
-  EMOJI_TYPE.confused: EMOJI_CONFUSED,
-  EMOJI_TYPE.cool: EMOJI_COOL,
-  EMOJI_TYPE.joyful: EMOJI_JOYFUL,
-  EMOJI_TYPE.happy: EMOJI_HAPPY,
-  EMOJI_TYPE.laughing: EMOJI_LAUGHING,
-  EMOJI_TYPE.sad: EMOJI_SAD,
-  EMOJI_TYPE.scared: EMOJI_SCARED,
-  EMOJI_TYPE.shocked: EMOJI_SHOCKED,
-  EMOJI_TYPE.smile: EMOJI_SMILE,
-  EMOJI_TYPE.wink: EMOJI_WINK
+  EMOJI_TYPE.angry: emojiAngry,
+  EMOJI_TYPE.confused: emojiConfused,
+  EMOJI_TYPE.cool: emojiCool,
+  EMOJI_TYPE.joyful: emojiJoyful,
+  EMOJI_TYPE.happy: emojiHappy,
+  EMOJI_TYPE.laughing: emojiLaughing,
+  EMOJI_TYPE.sad: emojiSad,
+  EMOJI_TYPE.scared: emojiScared,
+  EMOJI_TYPE.shocked: emojiShocked,
+  EMOJI_TYPE.smile: emojiSmile,
+  EMOJI_TYPE.wink: emojiWink
 };
 
 enum CORNER_RADIUS_TYPES {
